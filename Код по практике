@@ -1,0 +1,225 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection.Emit;
+using System.Xml.Linq;
+
+namespace basaplayer
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            const string CommandAddScoutBasa = "1";
+            const string CommandActivePlayerBasa = "2";
+            const string CommandDeactivscoutBasa = "3";
+            const string CommandPrintScoutDataBasa = "4";
+            const string CommandExit = "5";
+            const string CommandCreatFile = "6";
+
+            string directiryPath = @"C:\\Users\\moroz\\source\\repos\\база игроков\\база игроков\\bin\\Debug";
+            string[] files = Directory.GetFiles(directiryPath,"*.txt");
+            string commandUse;
+            bool isRunning = true;
+
+            basaPlayer database = new basaScout();
+
+            while (isRunning)
+            {
+                Console.Clear();
+                foreach(string file in files)
+                {
+                    string fileContent = File.ReadAllText(file);
+                    Console.WriteLine($"содержание файла{file}");
+                    Console.WriteLine(fileContent);
+                }
+                    
+                Console.WriteLine("Добро пожаловать в развед корпус ");
+                Console.WriteLine("чего хотите сделать");
+                Console.WriteLine($"Добавить разведчика{CommandAddScoutBasa}");
+                Console.WriteLine($"задать статус разведчику жив{CommandActiveScoutBasa}");
+                Console.WriteLine($"задать статус разведчику мертв{CommandDeactivscoutBasa}");
+                Console.WriteLine($"дать снарежение тамплиера{CommandPrintScoutDataBasa}");
+                Console.WriteLine($"выход{CommandExit}");
+                Console.WriteLine($"создать фаил{CommandCreatFile}");
+                commandUse = Console.ReadLine();
+                switch (commandUse)
+                {
+                    case CommandAddScoutBasa:
+                        database.AddComponet();
+                        break;
+                    case CommandActiveScoutBasa:
+                        database.Activad();
+                        break;
+                    case CommandDeactivscoutBasa:
+                        database.Deactiv();
+                        break;
+                    case CommandPrintScoutDataBasa:
+                        database.Print();
+                        break;
+                    case CommandExit:
+                        isRunning = false;
+                        break;
+                    default:
+                        Console.WriteLine("ни");
+                        break;
+                }
+                Console.WriteLine("нажмите на  кнопку ни");
+
+                Console.ReadKey();
+
+            }
+
+        }
+    }
+    class Scout
+    {
+        public Scout(int id, string name, int level)
+        {
+            Name = name;
+            Age = age;
+            Id = id;
+            Isbanned = true;
+
+        }
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+
+        public int Age { get; private set; }
+
+        public bool Isbanned { get; private set; }
+
+
+
+        public void Unban()
+        {
+            Isbanned = true;
+        }
+        public void Ban()
+        {
+            Isbanned = false;
+        }
+
+
+    }
+    class basaScout
+    {
+        private List<Scout> _list = new List<Scout>(0);
+        private int _lastNumber = 0;
+        
+        
+
+        
+
+        public void AddComponet()
+        {
+            bool isSpecifiedAge = false;
+            int age = 0;
+            string[] textScout = new string[2];
+            Console.WriteLine("назовите разведчика");
+            string name = Console.ReadLine();
+            textScout[0]=name;
+            Console.WriteLine("укажите возраст разведчика");
+
+
+            while (isSpecifiedAge == false)
+            {
+                if (int.TryParse(Console.ReadLine(), out age))
+                    isSpecifiedAge = true;
+                else
+                    Console.WriteLine("вы указали не возраст");
+            }
+            textScout[1]=Convert.ToString(age);
+            _list.Add(new Scout(_lastNumber++, name, age));
+            
+            SaveEmployees(name, textScout);
+        }
+        public void Activad()
+        {
+            int index;
+            Print();
+            string commandUsee = Console.ReadLine();
+
+            if (TryGetScout(commandUsee, out index))
+            {
+                if (_list[index].Isbanned == false)
+                    _list[index].Unban();
+                else
+                    Console.WriteLine("статус жив");
+
+
+            }
+
+
+        }
+
+        public void Deactiv()
+        {
+
+            int index;
+            string commandUsee = Console.ReadLine();
+            Console.WriteLine("какого пользователя хотите внести в списки мертвых");
+            Print();
+            commandUsee = Console.ReadLine();
+
+
+            if (TryGetScout(commandUsee, out index))
+                _list[index].Ban();
+        }
+
+        public void Print()
+        {
+            for (int i = 0; i < _list.Count; i++)
+            {
+                const string StatycAkt = "жив";
+                const string Statycdekt = "мертв";
+                string statusTampl;
+
+                for (i = 0; i < _list.Count; i++)
+                {
+                    if (_list[i].Isbanned)
+                        statusTampl = StatycAkt;
+                    else
+                        statusTampl = Statycdekt;
+
+                    Console.WriteLine($"такой разведчик c id -- {_list[i].Id+1})\n с таким именим --  {_list[i].Name}\n  его возраст: {_list[i].Age}\n  статус: {statusTampl}\n ");
+                }
+
+            }
+        }
+        private bool TryGetScout(string IdScout, out int id)
+        {
+            bool isProverka = false;
+            if (int.TryParse(IdScout, out id))
+            {
+                for (int i = 0; i < _list.Count; i++)
+                {
+                    if (_list[i].Id == id-1)
+                    {
+                        isProverka = true;
+                        id = i;
+                        break;
+                    }
+
+
+
+                }
+            }
+            return isProverka;
+        }
+
+        public void SaveEmployees(string loginUser, string[] textFil)
+        {
+          
+            File.WriteAllLines($"{loginUser}.txt", textFil);
+
+            
+        }
+
+        
+        
+
+
+    }
+
+}
