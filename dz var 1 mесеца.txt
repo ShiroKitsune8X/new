@@ -1,0 +1,16 @@
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+        int months[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        cout << "month: ";
+        int month;
+        cin >> month;
+        cout << "day: ";
+        int day;
+        cin >> day;
+        int days = months[month] - day;
+        cout << "days: " << days << '\n';
+}

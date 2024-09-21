@@ -1,0 +1,17 @@
+
+   int x,y,z,n;
+ cout<<"vvedite poryadkoviy nomer mesyatsa";
+ cin >> x;
+ cout << "vvedite poryadkoviy nomer dnya";
+ cin >> y;
+  if (x==1|| x==3 || x==5||x==7||x==8||x==10||x==12)z=31-y;
+  else{
+      if (x==4|| x==6 || x==9||x==11)z=30-y;
+       else printf("vvedite god");
+       cin >> n;
+       if (n%4!=0&& n!=2012)z=28-y;
+       else z=29-y;
+       }
+ cout << ("z= ",z);
+ return 0;
+}

@@ -1,0 +1,6 @@
+{ if(!x|| x<1)
+ (x<=0)
+cout <<"функция не определена "
+else 
+cout << 1/x + sqrt(x+1);
+int main()
