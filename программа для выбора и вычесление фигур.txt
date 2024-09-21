@@ -1,0 +1,43 @@
+#include<iostream>
+#include <cmath>
+using namespace std;
+
+int main()
+{   int result;
+     cout << "введите номер фигуры"; 
+     cin >> result;
+     switch (result){
+     case 1 : 
+     float a , s ;
+     cout << "введите стороны длины квадрата";
+     cin >> a >>  s ;
+     if(a>0)
+     {
+     s = a*a;
+     cout << "S со стороны  а = " << s << endl;
+     }
+     else{
+     cout << "с указоной стороны не существует" << endl;
+     }
+     break;
+     case 2 :
+      float A , b, c, P , S ;
+     cout << "введите стороны длины треугольник ";
+      cin >> a >> b >> c ; 
+       if(a + b > c && a + c > b && b + c > a){
+          P = (a + b + c) / 2;
+          S = sqrt(P * (P - a) * (P - b) * (P - c));
+           cout << "треугольник со сторонами a , b ,c =  " << S << endl;
+       }
+        else{
+             cout << "с указоной стороны не существует" << endl;
+         }
+         break;
+         case 3 :
+         break;
+         default:
+         cout <<"непрально введен номер фигуры" << endl;
+ 
+     }
+     return 0 ;
+}

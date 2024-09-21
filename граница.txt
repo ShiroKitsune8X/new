@@ -1,0 +1,27 @@
+// Online C++ Compiler - Build, Compile and Run your C++ programs online in your favorite browser
+
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+   
+    float x , y ;
+    cout << "задайите  параметры " << endl;
+    cin >> x >> y;
+    if(x * x + y * y  < 10*10 )
+    {
+    cout << "в границе  "  << endl;
+    }
+    else if  (x * x + y * y  > 10*10 )
+    {
+    cout <<"вне границе  "   << endl ;
+    }
+    else 
+    {
+    cout << "на границе  " << endl ;
+    }
+    return  0 ;
+    
+}
